@@ -10,13 +10,30 @@ function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [sort, setSort] = useState("newest");
   const [searchValue, setSearchValue] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   useEffect(() => {
     let result = [...products];
     result = filterSearch(result);
+    result = filterCategory(result);
     result = sortData(result);
     setFilteredProducts(result);
-    console.log(filteredProducts);
-  }, [products, sort, searchValue]);
+  }, [products, sort, searchValue, selectedCategory]);
+  useEffect(() => {
+    const storedProductsData =
+      JSON.parse(localStorage.getItem("products")) || [];
+    const storedCategoriesData =
+      JSON.parse(localStorage.getItem("categories")) || [];
+    setProducts(storedProductsData);
+    setCategories(storedCategoriesData);
+  }, []);
+  useEffect(() => {
+    if (products.length)
+      localStorage.setItem("products", JSON.stringify(products));
+  }, [products]);
+  useEffect(() => {
+    if (categories.length)
+      localStorage.setItem("categories", JSON.stringify(categories));
+  }, [categories]);
   const sortHandler = (e) => {
     setSort(e.target.value);
   };
@@ -26,6 +43,7 @@ function App() {
   const filterSearch = (array) => {
     return array.filter((p) => p.title.toLowerCase().includes(searchValue));
   };
+
   const sortData = (array) => {
     let savedProducts = [...array];
     return savedProducts.sort((a, b) => {
@@ -42,7 +60,13 @@ function App() {
     );
     setProducts(filteredProduct);
   };
-
+  const selectedCategoryHandler = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+  const filterCategory = (array) => {
+    if (!selectedCategory) return array;
+    return array.filter((p) => p.categoryId === selectedCategory);
+  };
   return (
     <div>
       <Navbar />
@@ -54,6 +78,9 @@ function App() {
           onSearch={searchHandler}
           sort={sort}
           searchValue={searchValue}
+          categories={categories}
+          onSelectCategory={selectedCategoryHandler}
+          selectedCategory={selectedCategory}
         />
         <ProductList
           products={filteredProducts}
