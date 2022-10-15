@@ -12,7 +12,11 @@ const Product = ({ categories, setProducts }) => {
   };
   const addNewProduct = (e) => {
     e.preventDefault();
-    if (!productData.quantity || !productData.title || !productData.categoryId)
+    if (
+      productData.quantity < 0 ||
+      !productData.title ||
+      !productData.categoryId
+    )
       return "";
     setProducts((prevState) => [
       ...prevState,
@@ -22,11 +26,7 @@ const Product = ({ categories, setProducts }) => {
         id: new Date().getTime(),
       },
     ]);
-    setProductData({
-      title: "",
-      quantity: 0,
-      categoryId: "",
-    });
+    setProductData({ ...productData, title: "", quantity: 0 });
   };
   return (
     <div className="mb-6">
@@ -73,6 +73,7 @@ const Product = ({ categories, setProducts }) => {
             name="categoryId"
             onChange={onChangeHandler}
             value={productData.categories}
+            defaultValue={productData.categories}
             id="product-category"
             className="bg-transparent text-slate-400 rounded-xl w-full"
           >

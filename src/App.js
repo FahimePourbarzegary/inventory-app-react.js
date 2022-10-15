@@ -11,7 +11,7 @@ function App() {
   const [sort, setSort] = useState("newest");
   const [searchValue, setSearchValue] = useState([]);
   useEffect(() => {
-    let result = products;
+    let result = [...products];
     result = filterSearch(result);
     result = sortData(result);
     setFilteredProducts(result);
@@ -33,8 +33,14 @@ function App() {
         return new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1;
       } else if (sort === "oldest") {
         return new Date(a.createdAt) > new Date(b.createdAt) ? 1 : -1;
-      }
+      } else return -1;
     });
+  };
+  const deleteProduct = (productId) => {
+    const filteredProduct = products.filter(
+      (p) => p.id !== parseInt(productId)
+    );
+    setProducts(filteredProduct);
   };
 
   return (
@@ -52,7 +58,7 @@ function App() {
         <ProductList
           products={filteredProducts}
           categories={categories}
-          setProducts={setProducts}
+          deleteProduct={deleteProduct}
         />
       </div>
     </div>

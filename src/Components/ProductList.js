@@ -1,13 +1,8 @@
-const ProductList = ({ products, categories, setProducts }) => {
+const ProductList = ({ products, categories, deleteProduct }) => {
   const findCategory = (categoryId) => {
     return categories.find((c) => c.id === parseInt(categoryId)).title;
   };
-  const deleteProduct = (productId) => {
-    const filteredProduct = products.filter(
-      (p) => p.id !== parseInt(productId)
-    );
-    setProducts(filteredProduct);
-  };
+
   return (
     <div>
       <h2>Product List</h2>
