@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Category from "./Components/Category";
+import Edit from "./Components/Edit";
 import Filter from "./Components/Filter";
 import Navbar from "./Components/Navbar";
 import Product from "./Components/Product";
@@ -11,6 +12,7 @@ function App() {
   const [sort, setSort] = useState("newest");
   const [searchValue, setSearchValue] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   useEffect(() => {
     let result = [...products];
     result = filterSearch(result);
@@ -73,6 +75,17 @@ function App() {
       <div className="container max-w-screen-sm mx-auto">
         <Category setCategories={setCategories} />
         <Product categories={categories} setProducts={setProducts} />
+        {selectedProduct ? (
+          <Edit
+            selectedProduct={selectedProduct}
+            setSelectedProduct={setSelectedProduct}
+            categories={categories}
+            setProducts={setProducts}
+            products={products}
+          />
+        ) : (
+          ""
+        )}
         <Filter
           onSort={sortHandler}
           onSearch={searchHandler}
@@ -86,6 +99,7 @@ function App() {
           products={filteredProducts}
           categories={categories}
           deleteProduct={deleteProduct}
+          setSelectedProduct={setSelectedProduct}
         />
       </div>
     </div>

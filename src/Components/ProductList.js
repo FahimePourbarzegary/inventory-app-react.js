@@ -1,4 +1,9 @@
-const ProductList = ({ products, categories, deleteProduct }) => {
+const ProductList = ({
+  products,
+  categories,
+  deleteProduct,
+  setSelectedProduct,
+}) => {
   const findCategory = (categoryId) => {
     return categories.find((c) => c.id === parseInt(categoryId)).title;
   };
@@ -33,6 +38,7 @@ const ProductList = ({ products, categories, deleteProduct }) => {
                 </button>
                 <button
                   className="edit-product border px-2 py-0.5 rounded-2xl border-green-500 text-green-500"
+                  onClick={() => setSelectedProduct(product)}
                   data-product-id={product.id}
                 >
                   edit
