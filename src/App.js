@@ -69,7 +69,7 @@ function App() {
   };
   return (
     <div>
-      <Navbar />
+      <Navbar products={products} />
       <div className="container max-w-screen-sm mx-auto">
         <Category setCategories={setCategories} />
         <Product categories={categories} setProducts={setProducts} />
