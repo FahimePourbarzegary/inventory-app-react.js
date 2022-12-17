@@ -19,6 +19,7 @@ function App() {
     result = filterCategory(result);
     result = sortData(result);
     setFilteredProducts(result);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, sort, searchValue, selectedCategory]);
   useEffect(() => {
     const storedProductsData =
